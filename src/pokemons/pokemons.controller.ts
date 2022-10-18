@@ -72,7 +72,7 @@ export class PokemonsController {
     @Res() res,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
-    const deletePoke = this.pokemonsServices.deletePokemon(
+    const deletePoke = await this.pokemonsServices.deletePokemon(
       parseInt(pokedexIdParam),
     );
     return res.status(HttpStatus.OK).json({
