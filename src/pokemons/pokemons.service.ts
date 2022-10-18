@@ -15,10 +15,36 @@ export class PokemonsService {
     return pokemons;
   }
 
-  async getPokemon(pokedexIdPar: number): Promise<Pokemon> {
+  async getPokemon(pokedexIdParam: number): Promise<Pokemon> {
     const pokemon = await this.pokemonModel.findOne({
-      pokedexId: pokedexIdPar,
+      pokedexId: pokedexIdParam,
     });
     return pokemon;
+  }
+
+  async createPokemon(createPokemonDTO: CreatePokemonDTO): Promise<Pokemon> {
+    const newPokimon = new this.pokemonModel(createPokemonDTO);
+    return await newPokimon.save();
+  }
+
+  async updatePokemon(
+    createPokemonDTO: CreatePokemonDTO,
+    pokedexIdParam: number,
+  ): Promise<Pokemon> {
+    const updatePokimon = await this.pokemonModel.findOneAndUpdate(
+      {
+        pokedexId: pokedexIdParam,
+      },
+      createPokemonDTO,
+      { new: true },
+    );
+    return updatePokimon;
+  }
+
+  async deletePokemon(pokedexIdParam: number): Promise<Pokemon> {
+    const deletePokimon = await this.pokemonModel.findOneAndDelete({
+      pokedexId: pokedexIdParam,
+    });
+    return deletePokimon;
   }
 }
