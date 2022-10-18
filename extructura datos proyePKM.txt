@@ -1,0 +1,39 @@
+pokemones:{
+	PokedexID:number;
+	nombre: string
+	tipos[array]
+	ataques[array]
+	imagen: string
+	nivel:number
+	experiencia:number
+	evolucion:{
+		if(tiene?&&nivel >= 12){
+			nombre:string;
+			imagen:string
+		}
+	}
+	shiny:boolean
+	if(shiny){
+		image:string
+	}
+}
+
+trainers:{
+	nombre:string;
+	medallas:[array:string];
+	equipo:[arrayDeObj{
+		aca va el poke
+	}];
+	pokeballs:[arrayDeObj{
+		tipoPokeball:string
+		cantidad:number
+	}]
+	pokemonesCapturados:[array:numbers]
+}
+
+
+pokeballs:{
+	tipoPokeball:string;
+	%deEfectividad:
+	image:string
+}
