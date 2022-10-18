@@ -38,7 +38,6 @@ export class PokemonsService {
       createPokemonDTO,
       { new: true },
     );
-    console.log(pokedexIdParam);
     return updatePokimon;
   }
 
@@ -48,4 +47,7 @@ export class PokemonsService {
     });
     return deletePokimon;
   }
+  // async createFirstGenPokemons(pokemonsFirstGen) {
+  //   return await this.pokemonModel.create(pokemonsFirstGen);
+  // }
 }

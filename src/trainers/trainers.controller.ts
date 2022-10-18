@@ -28,16 +28,16 @@ export class TrainersController {
 
   @Get(':trainerId')
   async getTrainer(@Res() res, @Param('trainerId') trainerId: string) {
-    if (trainerId.match(/^[0-9a-fA-F]{24}$/)) {
-      const trainer = await this.trainersServices.getTrainer(trainerId);
-      if (!trainer) throw new NotFoundException('Trainer Does Not exists');
-      return res.status(HttpStatus.OK).json({
-        message: 'Searched Trainer is : ',
-        trainer,
+    if (!trainerId.match(/^[0-9a-fA-F]{24}$/)) {
+      res.status(HttpStatus.NOT_ACCEPTABLE).send({
+        message: `The ID ${trainerId} must be an legal ID Trainer`,
       });
     }
-    res.status(HttpStatus.NOT_ACCEPTABLE).send({
-      message: `The ID ${trainerId} must be an legal ID Trainer`,
+    const trainer = await this.trainersServices.getTrainer(trainerId);
+    if (!trainer) throw new NotFoundException('Trainer Does Not exists');
+    return res.status(HttpStatus.OK).json({
+      message: 'Searched Trainer is : ',
+      trainer,
     });
   }
 
@@ -58,20 +58,19 @@ export class TrainersController {
     @Body() createTrainerDTO: CreateTrainerDTO,
     @Param('trainerId') trainerId: string,
   ) {
-    if (trainerId.match(/^[0-9a-fA-F]{24}$/)) {
-      const updateTrainer = await this.trainersServices.updateTrainer(
-        createTrainerDTO,
-        trainerId,
-      );
-      if (!updateTrainer)
-        throw new NotFoundException('Trainer Does Not exists');
-      return res.status(HttpStatus.OK).json({
-        message: 'Trainer Edited Succefully',
-        updateTrainer,
+    if (!trainerId.match(/^[0-9a-fA-F]{24}$/)) {
+      res.status(HttpStatus.NOT_ACCEPTABLE).send({
+        message: `The ID ${trainerId} must be an legal ID Trainer`,
       });
     }
-    res.status(HttpStatus.NOT_ACCEPTABLE).send({
-      message: `The ID ${trainerId} must be an legal ID Trainer`,
+    const updateTrainer = await this.trainersServices.updateTrainer(
+      createTrainerDTO,
+      trainerId,
+    );
+    if (!updateTrainer) throw new NotFoundException('Trainer Does Not exists');
+    return res.status(HttpStatus.OK).json({
+      message: 'Trainer Edited Succefully',
+      updateTrainer,
     });
   }
 
