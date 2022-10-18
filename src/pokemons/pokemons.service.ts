@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Pokemon } from './interfaces/product.interface';
+import { Pokemon } from './interfaces/pokemon.interface';
 import { CreatePokemonDTO } from './dto/pokemon.dto';
 
 @Injectable()
@@ -38,6 +38,7 @@ export class PokemonsService {
       createPokemonDTO,
       { new: true },
     );
+    console.log(pokedexIdParam);
     return updatePokimon;
   }
 
