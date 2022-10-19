@@ -47,6 +47,7 @@ export class PokemonsService {
     });
     return deletePokimon;
   }
+
   async createFirstGenPokemons(pokemonsFirstGen): Promise<Pokemon[]> {
     //   return await this.pokemonModel.create();
     const pokeArray = [];

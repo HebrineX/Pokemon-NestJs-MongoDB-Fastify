@@ -37,3 +37,26 @@ pokeballs:{
 	%deEfectividad:
 	image:string
 }
+
+Gyms:{
+	city:string;
+	typeMedall:string;
+	imageMedall:string;
+	Leader:{
+		trainer:{}
+	}
+	recruits:[{trainers}]
+}
+
+controladores para trainer
+Tienda pokeball
+atrapar pokes random
+ver baul de pokes
+elegir equipo
+
+
+controladores para pokemones
+Generacion automatica y random
+atrapar
+sistema de lucha y velocidad
+
