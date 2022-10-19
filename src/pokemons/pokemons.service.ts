@@ -47,7 +47,24 @@ export class PokemonsService {
     });
     return deletePokimon;
   }
-  // async createFirstGenPokemons(pokemonsFirstGen) {
-  //   return await this.pokemonModel.create(pokemonsFirstGen);
-  // }
+  async createFirstGenPokemons(pokemonsFirstGen) {
+    //   return await this.pokemonModel.create();
+    const pokeArray = [];
+    await pokemonsFirstGen.forEach((pokemon: CreatePokemonDTO) => {
+      const createPokemonDTO: CreatePokemonDTO = {
+        pokedexId: pokemon.pokedexId,
+        name: pokemon.name,
+        type: pokemon.type,
+        imageURL: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${
+          pokemon.pokedexId < 100
+            ? pokemon.pokedexId < 10
+              ? '00' + pokemon.pokedexId
+              : '0' + pokemon.pokedexId
+            : pokemon.pokedexId
+        }.png`,
+      };
+      pokeArray.push(createPokemonDTO);
+    });
+    return await this.pokemonModel.create(pokeArray);
+  }
 }

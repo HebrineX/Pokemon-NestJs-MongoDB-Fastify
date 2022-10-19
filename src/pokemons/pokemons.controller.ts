@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CreatePokemonDTO } from './dto/pokemon.dto';
 import { PokemonsService } from './pokemons.service';
-// import { pokemonsFirstGen } from './arrayPokes';
+import { pokemonsFirstGen } from './arrayPokes';
 @Controller('pokemons')
 export class PokemonsController {
   constructor(private pokemonsServices: PokemonsService) {}
@@ -82,14 +82,14 @@ export class PokemonsController {
     });
   }
 
-  // @Post('/createFirstGen')
-  // async createFirstGen(@Res() res) {
-  //   const createPoke = await this.pokemonsServices.createFirstGenPokemons(
-  //     pokemonsFirstGen,
-  //   );
-  //   return res.status(HttpStatus.OK).json({
-  //     message: 'Pokemon Succefully Created',
-  //     createPoke,
-  //   });
-  // }
+  @Post('/createFirstGen')
+  async createFirstGen(@Res() res) {
+    const createPoke = await this.pokemonsServices.createFirstGenPokemons(
+      pokemonsFirstGen,
+    );
+    return res.status(HttpStatus.OK).json({
+      message: 'Pokemon Succefully Created',
+      createPoke,
+    });
+  }
 }
