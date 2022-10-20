@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from './interfaces/pokemon.interface';
 import { CreatePokemonDTO } from './dto/pokemon.dto';
+import { randomInt } from 'crypto';
 
 @Injectable()
 export class PokemonsService {
@@ -63,6 +64,10 @@ export class PokemonsService {
               : '0' + pokemon.pokedexId
             : pokemon.pokedexId
         }.png`,
+        level:
+          Math.floor(
+            Math.random() * (pokemon.levelRate[1] - pokemon.levelRate[0]),
+          ) + pokemon.levelRate[0],
       };
       pokeArray.push(createPokemonDTO);
     });
