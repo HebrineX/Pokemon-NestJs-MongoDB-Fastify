@@ -30,12 +30,25 @@ export class PokemonsController {
     @Res() res,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
-    const pokemon = await this.pokemonsServices.getPokemon(
+    const pokemon = await this.pokemonsServices.getPokemon(pokedexIdParam);
+    if (!pokemon) throw new NotFoundException('Pokemon Does not exists');
+    return res.status(HttpStatus.OK).json({
+      message: 'Searched Pokemon is :',
+      pokemon,
+    });
+  }
+
+  @Get('/all/:pokedexIdParam')
+  async getPokemonsByName(
+    @Res() res,
+    @Param('pokedexIdParam') pokedexIdParam: string,
+  ) {
+    const pokemon = await this.pokemonsServices.getPokemonByName(
       parseInt(pokedexIdParam),
     );
     if (!pokemon) throw new NotFoundException('Pokemon Does not exists');
     return res.status(HttpStatus.OK).json({
-      message: 'Searched Pokemon is :',
+      message: 'Searched Pokemons is :',
       pokemon,
     });
   }

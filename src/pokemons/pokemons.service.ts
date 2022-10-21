@@ -3,7 +3,6 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from './interfaces/pokemon.interface';
 import { CreatePokemonDTO } from './dto/pokemon.dto';
-import { randomInt } from 'crypto';
 
 @Injectable()
 export class PokemonsService {
@@ -16,8 +15,13 @@ export class PokemonsService {
     return pokemons;
   }
 
-  async getPokemon(pokedexIdParam: number): Promise<Pokemon> {
-    const pokemon = await this.pokemonModel.findOne({
+  async getPokemon(pokedexIdParam: string): Promise<Pokemon> {
+    const pokemon = await this.pokemonModel.findById(pokedexIdParam);
+    return pokemon;
+  }
+
+  async getPokemonByName(pokedexIdParam: number): Promise<Pokemon[]> {
+    const pokemon = await this.pokemonModel.find({
       pokedexId: pokedexIdParam,
     });
     return pokemon;
