@@ -4,4 +4,5 @@ export class CreateTrainerDTO {
   team: string[];
   pokeballs: number;
   pokedexCompleted: number[];
+  pokemonTrunk: string[];
 }

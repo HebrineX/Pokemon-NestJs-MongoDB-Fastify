@@ -32,7 +32,7 @@ export class PokemonsService {
     return await newPokimon.save();
   }
 
-  async updatePokemon(
+  async updatePokemonByPokedex(
     createPokemonDTO: CreatePokemonDTO,
     pokedexIdParam: number,
   ): Promise<Pokemon> {
@@ -46,10 +46,22 @@ export class PokemonsService {
     return updatePokimon;
   }
 
-  async deletePokemon(pokedexIdParam: number): Promise<Pokemon> {
-    const deletePokimon = await this.pokemonModel.findOneAndDelete({
-      pokedexId: pokedexIdParam,
-    });
+  async updatePokemonById(
+    createPokemonDTO: CreatePokemonDTO,
+    pokedexIdParam: string,
+  ): Promise<Pokemon> {
+    const updatePokimon = await this.pokemonModel.findByIdAndUpdate(
+      pokedexIdParam,
+      createPokemonDTO,
+      { new: true },
+    );
+    return updatePokimon;
+  }
+
+  async deletePokemonById(pokedexIdParam: string): Promise<Pokemon> {
+    const deletePokimon = await this.pokemonModel.findByIdAndDelete(
+      pokedexIdParam,
+    );
     return deletePokimon;
   }
 

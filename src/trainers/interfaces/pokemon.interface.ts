@@ -6,4 +6,5 @@ export interface Trainer extends Document {
   readonly team: string[];
   readonly pokeballs: number;
   readonly pokedexCompleted: number[];
+  readonly pokemonTrunk: string[];
 }

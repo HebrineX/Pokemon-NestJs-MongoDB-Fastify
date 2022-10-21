@@ -64,13 +64,13 @@ export class PokemonsController {
     });
   }
 
-  @Put('/update/:pokedexIdParam')
-  async updatePokemon(
+  @Put('/update/all/:pokedexIdParam')
+  async updatePokemonByPokedex(
     @Res() res,
     @Body() createPokemonDTO: CreatePokemonDTO,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
-    const updatePoke = await this.pokemonsServices.updatePokemon(
+    const updatePoke = await this.pokemonsServices.updatePokemonByPokedex(
       createPokemonDTO,
       parseInt(pokedexIdParam),
     );
@@ -80,14 +80,30 @@ export class PokemonsController {
       updatePoke,
     });
   }
+  @Put('/update/:pokedexIdParam')
+  async updatePokemonById(
+    @Res() res,
+    @Body() createPokemonDTO: CreatePokemonDTO,
+    @Param('pokedexIdParam') pokedexIdParam: string,
+  ) {
+    const updatePoke = await this.pokemonsServices.updatePokemonById(
+      createPokemonDTO,
+      pokedexIdParam,
+    );
+    if (!updatePoke) throw new NotFoundException('Pokemon Does not exists');
+    return res.status(HttpStatus.OK).json({
+      message: 'Pokemon Edited Succefully',
+      updatePoke,
+    });
+  }
 
   @Delete('/delete/:pokedexIdParam')
-  async deletePokemon(
+  async deletePokemonById(
     @Res() res,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
-    const deletePoke = await this.pokemonsServices.deletePokemon(
-      parseInt(pokedexIdParam),
+    const deletePoke = await this.pokemonsServices.deletePokemonById(
+      pokedexIdParam,
     );
     return res.status(HttpStatus.OK).json({
       message: 'Pokemon Deleted succefully',
