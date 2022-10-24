@@ -10,6 +10,7 @@ import {
   Param,
   NotFoundException,
 } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
 import { CreatePokemonDTO } from './dto/pokemon.dto';
 import { PokemonsService } from './pokemons.service';
 import { pokemonsFirstGen } from './arrayPokes';
@@ -17,9 +18,9 @@ import { pokemonsFirstGen } from './arrayPokes';
 export class PokemonsController {
   constructor(private pokemonsServices: PokemonsService) {}
   @Get('/')
-  async getPokemons(@Res() res) {
+  async getPokemons(@Res() res: FastifyReply) {
     const pokemons = await this.pokemonsServices.getPokemons();
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Pokemons In Database',
       pokemons,
     });
@@ -27,7 +28,7 @@ export class PokemonsController {
 
   @Get(':pokedexIdParam')
   async getPokemon(
-    @Res() res,
+    @Res() res: FastifyReply,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
     if (!pokedexIdParam.match(/^[0-9a-fA-F]{24}$/)) {
@@ -37,7 +38,7 @@ export class PokemonsController {
     }
     const pokemon = await this.pokemonsServices.getPokemon(pokedexIdParam);
     if (!pokemon) throw new NotFoundException('Pokemon Does not exists');
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Searched Pokemon is :',
       pokemon,
     });
@@ -45,7 +46,7 @@ export class PokemonsController {
 
   @Get('/all/:pokedexIdParam')
   async getPokemonsByName(
-    @Res() res,
+    @Res() res: FastifyReply,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
     if (!pokedexIdParam.match(/^[0-9a-fA-F]{24}$/)) {
@@ -57,18 +58,21 @@ export class PokemonsController {
       parseInt(pokedexIdParam),
     );
     if (!pokemon) throw new NotFoundException('Pokemon Does not exists');
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Searched Pokemons is :',
       pokemon,
     });
   }
 
   @Post('/create')
-  async createPokemon(@Res() res, @Body() createPokemonDTO: CreatePokemonDTO) {
+  async createPokemon(
+    @Res() res: FastifyReply,
+    @Body() createPokemonDTO: CreatePokemonDTO,
+  ) {
     const createPoke = await this.pokemonsServices.createPokemon(
       createPokemonDTO,
     );
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Pokemon Succefully Created',
       createPoke,
     });
@@ -76,7 +80,7 @@ export class PokemonsController {
 
   @Put('/update/all/:pokedexIdParam')
   async updatePokemonByPokedex(
-    @Res() res,
+    @Res() res: FastifyReply,
     @Body() createPokemonDTO: CreatePokemonDTO,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
@@ -85,14 +89,14 @@ export class PokemonsController {
       parseInt(pokedexIdParam),
     );
     if (!updatePoke) throw new NotFoundException('Pokemon Does not exists');
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Pokemon Edited Succefully',
       updatePoke,
     });
   }
   @Put('/update/:pokedexIdParam')
   async updatePokemonById(
-    @Res() res,
+    @Res() res: FastifyReply,
     @Body() createPokemonDTO: CreatePokemonDTO,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
@@ -101,7 +105,7 @@ export class PokemonsController {
       pokedexIdParam,
     );
     if (!updatePoke) throw new NotFoundException('Pokemon Does not exists');
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Pokemon Edited Succefully',
       updatePoke,
     });
@@ -109,24 +113,24 @@ export class PokemonsController {
 
   @Delete('/delete/:pokedexIdParam')
   async deletePokemonById(
-    @Res() res,
+    @Res() res: FastifyReply,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
     const deletePoke = await this.pokemonsServices.deletePokemonById(
       pokedexIdParam,
     );
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Pokemon Deleted succefully',
       deletePoke,
     });
   }
 
   @Post('/createFirstGen')
-  async createFirstGen(@Res() res) {
+  async createFirstGen(@Res() res: FastifyReply) {
     const createPoke = await this.pokemonsServices.createFirstGenPokemons(
       pokemonsFirstGen,
     );
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Pokemon Succefully Created',
       createPoke,
     });

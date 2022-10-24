@@ -10,6 +10,7 @@ import {
   Param,
   NotFoundException,
 } from '@nestjs/common';
+import { FastifyReply } from 'fastify';
 import { CreateTrainerDTO } from './dto/trainer.dto';
 import { TrainersService } from './trainers.service';
 
@@ -18,16 +19,19 @@ export class TrainersController {
   constructor(private trainersServices: TrainersService) {}
 
   @Get('/')
-  async getTrainers(@Res() res) {
+  async getTrainers(@Res() res: FastifyReply) {
     const trainers = await this.trainersServices.getTrainers();
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Trainers In Database',
       trainers,
     });
   }
 
   @Get(':trainerId')
-  async getTrainer(@Res() res, @Param('trainerId') trainerId: string) {
+  async getTrainer(
+    @Res() res: FastifyReply,
+    @Param('trainerId') trainerId: string,
+  ) {
     if (!trainerId.match(/^[0-9a-fA-F]{24}$/)) {
       res.status(HttpStatus.NOT_ACCEPTABLE).send({
         message: `The ID ${trainerId} must be an legal ID Trainer`,
@@ -35,18 +39,21 @@ export class TrainersController {
     }
     const trainer = await this.trainersServices.getTrainer(trainerId);
     if (!trainer) throw new NotFoundException('Trainer Does Not exists');
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Searched Trainer is : ',
       trainer,
     });
   }
 
   @Post('/create')
-  async createTrainer(@Res() res, @Body() createTrainerDTO: CreateTrainerDTO) {
+  async createTrainer(
+    @Res() res: FastifyReply,
+    @Body() createTrainerDTO: CreateTrainerDTO,
+  ) {
     const createTrainer = await this.trainersServices.createTrainer(
       createTrainerDTO,
     );
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Trainer Succefuly Created',
       createTrainer,
     });
@@ -54,7 +61,7 @@ export class TrainersController {
 
   @Put('/update/:trainerId')
   async updateTrainer(
-    @Res() res,
+    @Res() res: FastifyReply,
     @Body() createTrainerDTO: CreateTrainerDTO,
     @Param('trainerId') trainerId: string,
   ) {
@@ -68,14 +75,17 @@ export class TrainersController {
       trainerId,
     );
     if (!updateTrainer) throw new NotFoundException('Trainer Does Not exists');
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Trainer Edited Succefully',
       updateTrainer,
     });
   }
 
   @Delete('/delete/:trainerId')
-  async deleteTrainer(@Res() res, @Param('trainerId') trainerId: string) {
+  async deleteTrainer(
+    @Res() res: FastifyReply,
+    @Param('trainerId') trainerId: string,
+  ) {
     if (!trainerId.match(/^[0-9a-fA-F]{24}$/)) {
       res.status(HttpStatus.NOT_ACCEPTABLE).send({
         message: `The ID ${trainerId} must be an legal ID Trainer`,
@@ -85,7 +95,7 @@ export class TrainersController {
 
     if (!deleteTrainer) throw new NotFoundException('Trainer Does Not exists');
 
-    return res.status(HttpStatus.OK).json({
+    return res.status(HttpStatus.OK).send({
       message: 'Trainer Succefully Deleted',
       deleteTrainer,
     });
