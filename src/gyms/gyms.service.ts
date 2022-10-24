@@ -14,7 +14,7 @@ export class GymsService {
   }
 
   async getGym(gymId: string): Promise<Gym> {
-    const trainer = await this.gymModel.findOne({ city: gymId });
+    const trainer = await this.gymModel.findById(gymId);
     return trainer;
   }
 
@@ -28,8 +28,8 @@ export class GymsService {
   }
 
   async updateGym(createGymDTO: CreateGymDTO, gymId: string): Promise<Gym> {
-    const updateGym = await this.gymModel.findOneAndUpdate(
-      { city: gymId },
+    const updateGym = await this.gymModel.findByIdAndUpdate(
+      gymId,
       createGymDTO,
       { new: true },
     );

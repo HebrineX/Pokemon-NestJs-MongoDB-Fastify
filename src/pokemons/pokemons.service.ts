@@ -87,6 +87,10 @@ export class PokemonsService {
       };
       pokeArray.push(createPokemonDTO);
     });
-    return await this.pokemonModel.create(pokeArray);
+    for (let index = 0; index < pokeArray.length; index++) {
+      const element = pokeArray[index];
+      await this.pokemonModel.create(element);
+    }
+    return pokeArray;
   }
 }

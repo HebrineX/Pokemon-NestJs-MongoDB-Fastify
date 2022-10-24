@@ -30,6 +30,11 @@ export class PokemonsController {
     @Res() res,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
+    if (!pokedexIdParam.match(/^[0-9a-fA-F]{24}$/)) {
+      res.status(HttpStatus.NOT_ACCEPTABLE).send({
+        message: `The ID ${pokedexIdParam} must be an legal ID Trainer`,
+      });
+    }
     const pokemon = await this.pokemonsServices.getPokemon(pokedexIdParam);
     if (!pokemon) throw new NotFoundException('Pokemon Does not exists');
     return res.status(HttpStatus.OK).json({
@@ -43,6 +48,11 @@ export class PokemonsController {
     @Res() res,
     @Param('pokedexIdParam') pokedexIdParam: string,
   ) {
+    if (!pokedexIdParam.match(/^[0-9a-fA-F]{24}$/)) {
+      res.status(HttpStatus.NOT_ACCEPTABLE).send({
+        message: `The ID ${pokedexIdParam} must be an legal ID Trainer`,
+      });
+    }
     const pokemon = await this.pokemonsServices.getPokemonByName(
       parseInt(pokedexIdParam),
     );
