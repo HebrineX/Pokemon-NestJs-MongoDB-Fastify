@@ -33,7 +33,7 @@ export class PokemonsController {
   ) {
     if (!pokedexIdParam.match(/^[0-9a-fA-F]{24}$/)) {
       res.status(HttpStatus.NOT_ACCEPTABLE).send({
-        message: `The ID ${pokedexIdParam} must be an legal ID Trainer`,
+        message: `The ID ${pokedexIdParam} must be an legal ID Pokemon`,
       });
     }
     const pokemon = await this.pokemonsServices.getPokemon(pokedexIdParam);
@@ -47,15 +47,10 @@ export class PokemonsController {
   @Get('/all/:pokedexIdParam')
   async getPokemonsByName(
     @Res() res: FastifyReply,
-    @Param('pokedexIdParam') pokedexIdParam: string,
+    @Param('pokedexIdParam') pokedexIdParam: number,
   ) {
-    if (!pokedexIdParam.match(/^[0-9a-fA-F]{24}$/)) {
-      res.status(HttpStatus.NOT_ACCEPTABLE).send({
-        message: `The ID ${pokedexIdParam} must be an legal ID Trainer`,
-      });
-    }
-    const pokemon = await this.pokemonsServices.getPokemonByName(
-      parseInt(pokedexIdParam),
+    const pokemon = await this.pokemonsServices.getPokemonByPokedex(
+      pokedexIdParam,
     );
     if (!pokemon) throw new NotFoundException('Pokemon Does not exists');
     return res.status(HttpStatus.OK).send({

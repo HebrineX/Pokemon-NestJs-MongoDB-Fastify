@@ -20,7 +20,7 @@ export class PokemonsService {
     return pokemon;
   }
 
-  async getPokemonByName(pokedexIdParam: number): Promise<Pokemon[]> {
+  async getPokemonByPokedex(pokedexIdParam: number): Promise<Pokemon[]> {
     const pokemon = await this.pokemonModel.find({
       pokedexId: pokedexIdParam,
     });

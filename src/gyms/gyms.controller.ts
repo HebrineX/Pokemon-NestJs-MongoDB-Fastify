@@ -27,7 +27,7 @@ export class GymsController {
     });
   }
 
-  @Get(':gymId')
+  @Get('/:gymId')
   async getGym(@Res() res: FastifyReply, @Param('gymId') gimId: string) {
     if (!gimId.match(/^[0-9a-fA-F]{24}$/)) {
       res.status(HttpStatus.NOT_ACCEPTABLE).send({
