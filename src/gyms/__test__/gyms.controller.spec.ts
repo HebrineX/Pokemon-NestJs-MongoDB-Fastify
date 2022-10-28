@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GymsController } from '../gyms.controller';
 import { GymsService } from '../gyms.service';
-import { GymDTOStub } from './stubs/gym.dto.stub';
+import { mockGymDTOStub } from './stubs/gym.dto.stub';
 
 describe('GymsController', () => {
   let controller: GymsController;

@@ -1,6 +1,6 @@
 import { CreateGymDTO } from 'src/gyms/dto/gym.dto';
 
-export const GymDTOStub = (): CreateGymDTO => {
+export const mockGymDTOStub = (): CreateGymDTO => {
   return {
     city: 'Viridian City',
     typeMedall: 'Ground-type',
